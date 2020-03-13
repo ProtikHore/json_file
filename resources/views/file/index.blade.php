@@ -26,12 +26,12 @@
             <hr>
             <div class="row mt-3" id="image_show">
 {{--                <div class="col-2">--}}
-{{--                    <img src="storage/image/file/1584036562.jpg" width="100" height="100">--}}
+{{--                    <img src="storage/image/file/1584095335.jpg" width="100" height="100">--}}
 {{--                    <h3>Title</h3>--}}
 {{--                    <button type="button" class="btn btn-primary">Remove</button>--}}
 {{--                </div>--}}
 {{--                <div class="col-2" id="image_show">--}}
-{{--                    <img src="storage/image/file/1584036562.jpg" width="100" height="100">--}}
+{{--                    <img src="storage/image/file/1584095335.jpg" width="100" height="100">--}}
 {{--                    <h3>Title</h3>--}}
 {{--                    <button type="button" class="btn btn-primary">Remove</button>--}}
 {{--                </div>--}}
@@ -97,7 +97,7 @@
 
         function getImages(url)
         {
-            $('#image_show').empty();
+            // $('#image_show').empty();
             $.ajax({
                 method: 'get',
                 url: url,
@@ -107,11 +107,18 @@
                         console.log(data.image_path);
 
 
-                        $('#image_show').append('<div class="col">')
+                        $('#image_show').append($('<div class="col-2">')
                             .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
                             .append("<h3> " + data.title + "</h3>")
                             .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
-                            .append('</div>');
+                            .append('</div>')
+                        );
+
+                        // $('#image_show').append('<div class="col">')
+                        //     .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
+                        //     .append("<h3> " + data.title + "</h3>")
+                        //     .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
+                        //     .append('</div>');
 
 
                         //$('#image_show').append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >");

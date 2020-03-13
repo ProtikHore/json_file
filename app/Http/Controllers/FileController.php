@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FileRequest;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
@@ -18,7 +19,7 @@ class FileController extends Controller
         return response()->json($getDataArrayImage);
     }
 
-    public function upload(Request $request)
+    public function upload(FileRequest $request)
     {
         $fileData['id'] = 1;
         $fileData['title'] = $request->get('title');

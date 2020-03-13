@@ -12,28 +12,41 @@ class FileController extends Controller
         return view('file.index');
     }
 
-    public function getImage()
+    public function getImage($searchKey)
     {
-        $getDataImage = file_get_contents('file.json');
-        $getDataArrayImage = json_decode($getDataImage);
+        $temparray = [];
+        if ($searchKey !== 'null') {
+            $getDataImage = file_get_contents('file.json');
+            $getDataArrayImage = json_decode($getDataImage);
+
+            foreach ($getDataArrayImage as $key => $item) {
+                if ($item->title == $searchKey) {
+                    array_push($temparray, $getDataArrayImage[$key]);
+                }
+            }
+            return response()->json($temparray);
+
+        } else {
+            $getDataImage = file_get_contents('file.json');
+            $getDataArrayImage = json_decode($getDataImage);
+        }
         return response()->json($getDataArrayImage);
     }
 
-    public function upload(FileRequest $request)
+    public function upload(Request $request)
     {
         $fileData['id'] = 1;
         $fileData['title'] = $request->get('title');
         $fileData['image_path'] = $request->file('image')->storeAs('image/file', time() . '.' . $request->file('image')->getClientOriginalExtension(), 'public');
         $dataArray[] = $fileData;
-//        $fp = fopen('file.json', 'w');
-//        fwrite($fp, json_encode($dataArray));
-//        fclose($fp);
-//        return response()->json($fileData);
 
         $inp = file_get_contents('file.json');
         $tempArray = json_decode($inp);
-//        return response()->json($tempArray);
         if ($tempArray) {
+            $last_item    = end($tempArray);
+            $last_item_id = $last_item->id;
+            $last_item_id++;
+            $fileData['id'] = $last_item_id;
             array_push($tempArray, $fileData);
         } else {
             $tempArray = $dataArray;

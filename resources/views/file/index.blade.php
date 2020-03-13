@@ -18,7 +18,9 @@
                     <button class="btn btn-primary" id="image_modal"> Upload Image</button>
                 </div>
                 <div class="col-9">
-                    <input type="text" class="form-control" name="search" id="search" placeholder="Search....">
+                    <form id="search_form">
+                        <input type="text" class="form-control" name="search" id="search" placeholder="Search....">
+                    </form>
                 </div>
             </div>
             <hr>
@@ -91,35 +93,52 @@
 
     <script language="JavaScript">
 
+        let currentPageUrl = '';
+
+        function getImages(url)
+        {
+            $('#image_show').empty();
+            $.ajax({
+                method: 'get',
+                url: url,
+                success: function (result) {
+                    console.log(result);
+                    $.each(result, function (key, data) {
+                        console.log(data.image_path);
+
+
+                        $('#image_show').append('<div class="col">')
+                            .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
+                            .append("<h3> " + data.title + "</h3>")
+                            .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
+                            .append('</div>');
+
+
+                        //$('#image_show').append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >");
+                        //$('#image_show').append("<h3> " + data.title + "</h3>");
+                        // $('#image_show').append("<button type='button' class='btn btn-primary image_remove'" data-id="' + data.id +'" >Remove</button>");
+                        //$('#image_show').append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
+                    })
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+            return true;
+        }
+
         $(document).ready(function () {
            console.log('hello');
-           $.ajax({
-               method: 'get',
-               url: '{{ url('get/image') }}',
-               success: function (result) {
-                console.log(result);
-                $.each(result, function (key, data) {
-                    console.log(data.image_path);
+           currentPageUrl = '{{ url('get/image') }}/null';
+           getImages(currentPageUrl);
 
+        });
 
-                    $('#image_show').append('<div class="col">')
-                        .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
-                        .append("<h3> " + data.title + "</h3>")
-                        .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
-                        .append('</div>');
-
-
-                    //$('#image_show').append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >");
-                    //$('#image_show').append("<h3> " + data.title + "</h3>");
-                    // $('#image_show').append("<button type='button' class='btn btn-primary image_remove'" data-id="' + data.id +'" >Remove</button>");
-                    //$('#image_show').append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
-                })
-               },
-               error: function (xhr) {
-                   console.log(xhr);
-               }
-           });
-           return false;
+        $(document).on('keyup', '#search', function () {
+            let searchKey = $('#search').val() === '' ? 'null' : $('#search').val();
+            currentPageUrl = '{{ url('get/image') }}/' + searchKey;
+            getImages(currentPageUrl);
+            return false;
         });
 
         $('#image_modal').on('click', function () {

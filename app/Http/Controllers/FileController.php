@@ -49,9 +49,10 @@ class FileController extends Controller
         $getDataArrayRemove = json_decode($getDataRemove);
         foreach ($getDataArrayRemove as $key => $value) {
             if ($id == $value->id) {
-                unset($getDataArrayRemove[$key]);
-                $newArray[] = $getDataArrayRemove;
-                $status = json_encode($newArray);
+//                unset($getDataArrayRemove[$key]);
+                array_splice($getDataArrayRemove, 0);
+//                $newArray[] = $getDataArrayRemove;
+                $status = json_encode($getDataArrayRemove);
                 file_put_contents('file.json', $status);
                 return response()->json($status);
             }

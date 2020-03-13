@@ -22,15 +22,17 @@
                 </div>
             </div>
             <hr>
-            <div class="row mt-3">
-                <div class="col">
-                    <div id="image_show">
-
-                    </div>
+            <div class="row mt-3" id="image_show">
+{{--                <div class="col-2">--}}
 {{--                    <img src="storage/image/file/1584036562.jpg" width="100" height="100">--}}
 {{--                    <h3>Title</h3>--}}
-{{--                    <button type="bbutton" class="btn btn-primary">Remove</button>--}}
-                </div>
+{{--                    <button type="button" class="btn btn-primary">Remove</button>--}}
+{{--                </div>--}}
+{{--                <div class="col-2" id="image_show">--}}
+{{--                    <img src="storage/image/file/1584036562.jpg" width="100" height="100">--}}
+{{--                    <h3>Title</h3>--}}
+{{--                    <button type="button" class="btn btn-primary">Remove</button>--}}
+{{--                </div>--}}
             </div>
 
 
@@ -98,10 +100,19 @@
                 console.log(result);
                 $.each(result, function (key, data) {
                     console.log(data.image_path);
-                    $('#image_show').append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >");
-                    $('#image_show').append("<h3> " + data.title + "</h3>");
+
+
+                    $('#image_show').append('<div class="col">')
+                        .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
+                        .append("<h3> " + data.title + "</h3>")
+                        .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
+                        .append('</div>');
+
+
+                    //$('#image_show').append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >");
+                    //$('#image_show').append("<h3> " + data.title + "</h3>");
                     // $('#image_show').append("<button type='button' class='btn btn-primary image_remove'" data-id="' + data.id +'" >Remove</button>");
-                    $('#image_show').append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
+                    //$('#image_show').append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
                 })
                },
                error: function (xhr) {

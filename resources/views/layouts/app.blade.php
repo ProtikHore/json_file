@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> Bakers’ Festival 2020 </title>
+    <title> Image Upload </title>
     <link rel="icon" href="{{ asset('image/logo.png') }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

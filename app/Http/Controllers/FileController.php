@@ -36,7 +36,7 @@ class FileController extends Controller
     public function upload(Request $request)
     {
         $fileData['id'] = 1;
-        $fileData['title'] = $request->get('title');
+        $fileData['title'] = $request->get('title') === null ? 'No Title' : $request->get('title');
         $fileData['image_path'] = $request->file('image')->storeAs('image/file', time() . '.' . $request->file('image')->getClientOriginalExtension(), 'public');
         $dataArray[] = $fileData;
 

@@ -31,16 +31,13 @@
             </div>
             <hr>
             <div class="row mt-3" id="image_show">
-{{--                <div class="col-2">--}}
-{{--                    <img src="storage/image/file/1584095335.jpg" width="100" height="100">--}}
-{{--                    <h3>Title</h3>--}}
-{{--                    <button type="button" class="btn btn-primary">Remove</button>--}}
-{{--                </div>--}}
-{{--                <div class="col-2" id="image_show">--}}
-{{--                    <img src="storage/image/file/1584095335.jpg" width="100" height="100">--}}
-{{--                    <h3>Title</h3>--}}
-{{--                    <button type="button" class="btn btn-primary">Remove</button>--}}
-{{--                </div>--}}
+
+            </div>
+
+            <div class="row sr-only" id="image_no_record_section">
+                <div class="col text-center">
+                    No Record Found
+                </div>
             </div>
 
 
@@ -52,7 +49,7 @@
                             <button type="button" class="close image_upload_modal_close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body" style="padding-left: 80px; padding-right: 80px; padding-bottom: 50px;">
-                            <div id="religion_form_message" class="text-center text-danger">
+                            <div id="image_form_message" class="text-center text-danger">
 
                             </div>
                             <form id="image_upload_form" enctype="multipart/form-data">
@@ -113,7 +110,8 @@
 
         function getImages(url)
         {
-            // $('#image_show').empty();
+            $('#image_no_record_section').addClass('sr-only');
+            $('#image_show').empty();
             $.ajax({
                 method: 'get',
                 url: url,
@@ -121,26 +119,12 @@
                     console.log(result);
                     $.each(result, function (key, data) {
                         console.log(data.image_path);
-
-
                         $('#image_show').append($('<div class="col-2">')
                             .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
                             .append("<h3> " + data.title + "</h3>")
                             .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
                             .append('</div>')
                         );
-
-                        // $('#image_show').append('<div class="col">')
-                        //     .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
-                        //     .append("<h3> " + data.title + "</h3>")
-                        //     .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
-                        //     .append('</div>');
-
-
-                        //$('#image_show').append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >");
-                        //$('#image_show').append("<h3> " + data.title + "</h3>");
-                        // $('#image_show').append("<button type='button' class='btn btn-primary image_remove'" data-id="' + data.id +'" >Remove</button>");
-                        //$('#image_show').append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
                     })
                 },
                 error: function (xhr) {
@@ -157,6 +141,14 @@
 
         });
 
+        function clearFileForm() {
+            $('#image_form_message').empty();
+            $('#image_upload_form').find('.text-danger').removeClass('text-danger');
+            $('#image_upload_form').find('.is-invalid').removeClass('is-invalid');
+            $('#image_upload_form').find('span').remove();
+            return true;
+        }
+
         $(document).on('keyup', '#search', function () {
             let searchKey = $('#search').val() === '' ? 'null' : $('#search').val();
             currentPageUrl = '{{ url('get/image') }}/' + searchKey;
@@ -165,6 +157,9 @@
         });
 
         $('#image_modal').on('click', function () {
+            $('#image_upload_form').trigger('reset');
+            $('#image').attr('src', '{{ asset('storage/icon/upload.png') }}');
+            clearFileForm();
             $('#image_upload_form_submit').text('SAVE');
             $('#image_upload_modal').modal('show').on('shown.bs.modal', function () {
                 $('#religion').focus();
@@ -186,6 +181,7 @@
         }
 
         $(document).on('submit', '#image_upload_form' ,function () {
+            clearFileForm();
             var bar = $('.image_bar');
             var percent = $('.image_percent');
            let fileData = new FormData(this);
@@ -215,9 +211,30 @@
                    var percentVal = '100%';
                    bar.width(percentVal);
                    percent.html(percentVal);
+                   currentPageUrl = '{{ url('get/image') }}/null';
+                   getImages(currentPageUrl);
+                   $('.image_upload_modal_close').trigger('click');
                },
                error: function (xhr) {
                    console.log(xhr);
+                   if (xhr.hasOwnProperty('responseJSON')) {
+                       if (xhr.responseJSON.hasOwnProperty('errors')) {
+                           $.each(xhr.responseJSON.errors, function (key, value) {
+                               if (key !== 'id') {
+                                   $('#' + key).after('<span></span>');
+                                   $('#' + key).parent().find('label').addClass('text-danger');
+                                   $('#' + key).addClass('is-invalid');
+                                   $.each(value, function (k, v) {
+                                       $('#' + key).parent().find('span').addClass('text-danger').append('<p>' + v + '</p>');
+                                   });
+                               } else {
+                                   $.each(value, function (k, v) {
+                                       $('#image_form_message').append('<p>' + v + '</p>');
+                                   });
+                               }
+                           });
+                       }
+                   }
                }
                
            });
@@ -233,6 +250,8 @@
                cache: false,
                success: function (result) {
                    console.log(result);
+                   currentPageUrl = '{{ url('get/image') }}/null';
+                   getImages(currentPageUrl);
                },
                error: function (xhr) {
                    console.log(xhr);

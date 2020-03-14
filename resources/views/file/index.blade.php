@@ -2,6 +2,12 @@
 
 @section('content')
 
+    <style>
+        .image_progress { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+        .image_bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
+        .image_percent { position:absolute; display:inline-block; top:3px; left:48%; }
+    </style>
+
     <div style="height: 20px;"></div>
 
     <div class="row">
@@ -80,6 +86,16 @@
                                     </div>
                                 </div>
                             </form>
+
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <div class="image_progress">
+                                        <div class="image_bar"></div >
+                                        <div class="image_percent">0%</div >
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -170,6 +186,8 @@
         }
 
         $(document).on('submit', '#image_upload_form' ,function () {
+            var bar = $('.image_bar');
+            var percent = $('.image_percent');
            let fileData = new FormData(this);
             fileData.append('_token', '{{ csrf_token() }}');
            $.ajax({
@@ -179,8 +197,24 @@
                processData: false,
                contentType: false,
                cache: false,
+               xhr: function() {
+                   var xhr = new window.XMLHttpRequest();
+                   xhr.upload.addEventListener("progress", function(evt) {
+                       //console.log(percentComplete);
+                       if (evt.lengthComputable) {
+                           var percentComplete = Math.round( (evt.loaded * 100) / evt.total ) + '%';
+                           //var barVal = Math.ceil(percentComplete);
+                           bar.width(percentComplete);
+                           percent.html(percentComplete);
+                       }
+                   }, false);
+                   return xhr;
+               },
                success: function (result) {
                    console.log(result);
+                   var percentVal = '100%';
+                   bar.width(percentVal);
+                   percent.html(percentVal);
                },
                error: function (xhr) {
                    console.log(xhr);

@@ -24,6 +24,7 @@
     <script src="{{ asset('js/bootstrap-clockpicker.min.js') }}" type="text/javascript"></script>
     <link href="{{ asset('css/jquery-confirm.min.css') }}" type="text/css" rel="stylesheet">
     <script src="{{ asset('js/jquery-confirm.min.js') }}" type="text/javascript"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
     <style type="text/css">
         body {
             background-color: #FFFFFF;
@@ -104,31 +105,31 @@
 
 
 <script>
-    $body = $("body");
-    $(document).on({
-        ajaxStart: function() {
-            var zIndex = 999;
-            if ($('body').hasClass('modal-open')) {
-                zIndex = parseInt($('div.modal').css('z-index')) + 1;
-            }
-            $(".ajax_loading_modal").css({
-                'z-index': zIndex
-            });
-            $body.addClass("loading");
-            $('body.loading .ajax_loading_modal').css({
-                'overflow': 'hidden',
-                'display': 'block'
-            });
-        },
-        ajaxStop: function() {
-            $('body.loading .ajax_loading_modal').css({
-                'overflow': 'visible',
-                'display': 'none'
-            });
-            $body.removeClass("loading");
-
-        }
-    });
+    // $body = $("body");
+    // $(document).on({
+    //     ajaxStart: function() {
+    //         var zIndex = 999;
+    //         if ($('body').hasClass('modal-open')) {
+    //             zIndex = parseInt($('div.modal').css('z-index')) + 1;
+    //         }
+    //         $(".ajax_loading_modal").css({
+    //             'z-index': zIndex
+    //         });
+    //         $body.addClass("loading");
+    //         $('body.loading .ajax_loading_modal').css({
+    //             'overflow': 'hidden',
+    //             'display': 'block'
+    //         });
+    //     },
+    //     ajaxStop: function() {
+    //         $('body.loading .ajax_loading_modal').css({
+    //             'overflow': 'visible',
+    //             'display': 'none'
+    //         });
+    //         $body.removeClass("loading");
+    //
+    //     }
+    // });
 </script>
 
 

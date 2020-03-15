@@ -117,15 +117,21 @@
                 url: url,
                 success: function (result) {
                     console.log(result);
-                    $.each(result, function (key, data) {
-                        console.log(data.image_path);
-                        $('#image_show').append($('<div class="col-2">')
-                            .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
-                            .append("<h3> " + data.title + "</h3>")
-                            .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
-                            .append('</div>')
-                        );
-                    })
+                    if(result && result.length) {
+                        console.log('record');
+                        $.each(result, function (key, data) {
+                            console.log(data.image_path);
+                            $('#image_show').append($('<div class="col-2">')
+                                .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
+                                .append("<h3> " + data.title + "</h3>")
+                                .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
+                                .append('</div>')
+                            );
+                        });
+                    } else {
+                        console.log(' no record');
+                        $('#image_no_record_section').removeClass('sr-only');
+                    }
                 },
                 error: function (xhr) {
                     console.log(xhr);

@@ -54,12 +54,12 @@
                             </div>
                             <form id="image_upload_form" enctype="multipart/form-data">
                                 <input name="id" type="hidden" id="image_id">
-                                <div class="row">
+                                <div class="row" id="drop-container">
                                     <div class="col">
                                         <div class="form-group">
                                             <label >
-                                                <input type="file" name="image"  onchange="readPhotoURL(this);" style="opacity:0;">
-                                                <img  style="width:80px; height:80px"; id="image" src="{{asset('storage/icon/upload.png')}}" alt="your image" />
+                                                <inpu type="file" name="image"  onchange="readPhotoURL(this);" style="opacity:0;">
+                                                <img style="width:80px; height:80px"; id="image" src="{{asset('storage/icon/upload.png')}}" alt="your image" />
                                             </label>
                                         </div>
                                     </div>
@@ -72,7 +72,7 @@
                                 <div class="row mt-3">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="religion">Image Title</label>
+                                            <label for="title">Image Title</label>
                                             <input name="title" type="text" class="form-control" id="title" placeholder="Image Title">
                                         </div>
                                     </div>

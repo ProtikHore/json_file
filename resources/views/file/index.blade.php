@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     <style>
         .image_progress { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
         .image_bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
@@ -57,10 +56,10 @@
                                 <div class="row" id="drop-container">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label >
-                                                <inpu type="file" name="image"  onchange="readPhotoURL(this);" style="opacity:0;">
-                                                <img style="width:80px; height:80px"; id="image" src="{{asset('storage/icon/upload.png')}}" alt="your image" />
-                                            </label>
+{{--                                            <input type="file" name="image"  onchange="readPhotoURL(this);" style="opacity:0;">--}}
+{{--                                            <img style="width:80px; height:80px"; id="image" src="{{asset('storage/icon/upload.png')}}" alt="your image" />--}}
+                                            <input type="file" name="image" onchange="readPhotoURL(this)" style="opacity: 0; width: 200px; height: 150px; border: 1px solid grey; cursor: pointer;">
+                                            <img  style="width:200px; height:150px; margin-top: 47px; margin-left: -84px; border: 1px solid grey;" id="image" src="{{asset('storage/icon/upload.png')}}" alt="your photo" />
                                         </div>
                                     </div>
                                 </div>
@@ -122,7 +121,8 @@
                         $.each(result, function (key, data) {
                             console.log(data.image_path);
                             $('#image_show').append($('<div class="col-2">')
-                                .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
+                                // .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
+                                .append("<a href='storage/"+ data.image_path +"'><img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' ></a>")
                                 .append("<h3> " + data.title + "</h3>")
                                 .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
                                 .append('</div>')

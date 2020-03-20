@@ -26,6 +26,7 @@
     <script src="{{ asset('js/jquery-confirm.min.js') }}" type="text/javascript"></script>
     <link href="{{ asset('css/image-uploader.min.css') }}" type="text/css" rel="stylesheet">
     <script src="{{ asset('js/image-uploader.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/imgPreview.min.js') }}" type="text/javascript"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
     <style type="text/css">
         body {

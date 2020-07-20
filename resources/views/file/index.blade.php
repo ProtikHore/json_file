@@ -2,9 +2,31 @@
 
 @section('content')
     <style>
-        .image_progress { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+        .image_progress { position:relative; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
         .image_bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
         .image_percent { position:absolute; display:inline-block; top:3px; left:48%; }
+
+        /*body{*/
+        /*    overflow: hidden;*/
+        /*}*/
+
+        /*h3{*/
+        /*    position: absolute;*/
+        /*    white-space: nowrap;*/
+        /*    animation: floatText 5s infinite alternate ease-in-out;*/
+        /*}*/
+
+        /*@-webkit-keyframes floatText{*/
+        /*    from {*/
+        /*        left: 00%;*/
+        /*    }*/
+
+        /*    to {*/
+        /*        !* left: auto; *!*/
+        /*        left: 100%;*/
+        /*    }*/
+        /*}*/
+
     </style>
 
     <div style="height: 20px;"></div>
@@ -41,7 +63,7 @@
 
 
             <div class="modal fade" id="image_upload_modal">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-dialog-centered modal-fifty">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Upload Image</h5>
@@ -54,30 +76,35 @@
                             <form id="image_upload_form" enctype="multipart/form-data">
                                 <input name="id" type="hidden" id="image_id">
                                 <div class="row" id="drop-container">
-                                    <div class="col">
+                                    <div class="col text-center">
                                         <div class="form-group">
 {{--                                            <input type="file" name="image"  onchange="readPhotoURL(this);" style="opacity:0;">--}}
 {{--                                            <img style="width:80px; height:80px"; id="image" src="{{asset('storage/icon/upload.png')}}" alt="your image" />--}}
                                             <input type="file" name="image" onchange="readPhotoURL(this)" style="opacity: 0; width: 200px; height: 150px; border: 1px solid grey; cursor: pointer;">
-                                            <img  style="width:200px; height:150px; margin-top: 47px; margin-left: -84px; border: 1px solid grey;" id="image" src="{{asset('storage/icon/upload.png')}}" alt="your photo" />
+                                            <img  style="width:200px; height:150px; margin-top: 117px; margin-left: -204px; border: 1px solid grey;" id="image" src="{{url('image/icon/upload.png')}}" alt="your photo" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col text-center">
                                         Drag & Drop or Select File
                                     </div>
                                 </div>
+                                <hr style="border-top: 1px dashed;">
                                 <div class="row mt-3">
-                                    <div class="col">
+                                    <div class="col-4 text-right mt-2">
                                         <div class="form-group">
                                             <label for="title">Image Title</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="form-group">
                                             <input name="title" type="text" class="form-control" id="title" placeholder="Image Title">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col text-right">
+                                <div class="row mt-3">
+                                    <div class="col text-center">
                                         <button type="submit" class="btn btn-primary btn-sm text-center margin_left_fifteen_px" id="image_upload_form_submit"></button>
                                     </div>
                                 </div>
@@ -120,12 +147,24 @@
                         console.log('record');
                         $.each(result, function (key, data) {
                             console.log(data.image_path);
-                            $('#image_show').append($('<div class="col-2">')
-                                // .append("<img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' >")
-                                .append("<a href='storage/"+ data.image_path +"'><img class='p-3' src='storage/"+ data.image_path +"' width='130' height='130' ></a>")
-                                .append("<h3> " + data.title + "</h3>")
-                                .append('<button type="button" class="btn btn-primary remove_image" data-id="' + data.id + '">Remove</button>')
-                                .append('</div>')
+                            $('#image_show').append(
+                                '<div class="col-2 mt-4">' +
+                                '<div class="row">' +
+                                '<div class="col">' +
+                                '<a href="storage/'+ data.image_path +'"><img class="border" src="storage/'+ data.image_path +'" width="130" height="130" alt=""></a>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="row mt-2">' +
+                                '<div class="col text-center">' +
+                                '<span>' + data.title + '</span>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="row mt-2">' +
+                                '<div class="col text-center">' +
+                                '<button type="button" class="btn btn-primary btn-sm remove_image" data-id="'+ data.id +'">Remove</button>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>'
                             );
                         });
                     } else {
@@ -164,9 +203,12 @@
 
         $('#image_modal').on('click', function () {
             $('#image_upload_form').trigger('reset');
-            $('#image').attr('src', '{{ asset('storage/icon/upload.png') }}');
+            $('.image_bar').trigger('reset');
+            $('.image_percent').val(0);
+            $('.image_progress').val(0);
+            $('#image').attr('src', '{{ url('image/icon/upload.png') }}');
             clearFileForm();
-            $('#image_upload_form_submit').text('SAVE');
+            $('#image_upload_form_submit').text('Upload');
             $('#image_upload_modal').modal('show').on('shown.bs.modal', function () {
                 $('#religion').focus();
             });
@@ -190,7 +232,7 @@
             clearFileForm();
             var bar = $('.image_bar');
             var percent = $('.image_percent');
-           let fileData = new FormData(this);
+            let fileData = new FormData(this);
             fileData.append('_token', '{{ csrf_token() }}');
            $.ajax({
                method: 'post',
@@ -219,7 +261,9 @@
                    percent.html(percentVal);
                    currentPageUrl = '{{ url('get/image') }}/null';
                    getImages(currentPageUrl);
-                   $('.image_upload_modal_close').trigger('click');
+                   $('#image_upload_form').trigger('reset');
+                   $('#image').attr('src', '{{ url('image/icon/upload.png') }}');
+                   //$('.image_upload_modal_close').trigger('click');
                },
                error: function (xhr) {
                    console.log(xhr);
@@ -242,7 +286,7 @@
                        }
                    }
                }
-               
+
            });
            return false;
         });

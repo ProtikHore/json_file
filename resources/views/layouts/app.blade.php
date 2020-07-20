@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <script src="{{ asset('js/jquery.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/angular.min.js') }}" type="text/javascript"></script>
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" type="text/css">
     <script src="{{ asset('js/jquery-ui.js') }}" type="text/javascript"></script>
     <link href="{{ asset('css/font-awesome.all.css') }}" type="text/css" rel="stylesheet">
@@ -16,12 +15,6 @@
     <script src="{{ asset('js/jquery.toaster.js') }}" type="text/javascript"></script>
     <link href="{{ asset('css/jquery.treegrid.css') }}" type="text/css" rel="stylesheet">
     <script src="{{ asset('js/jquery.treegrid.js') }}" type="text/javascript"></script>
-    <link href="{{ asset('css/select2.min.css') }}" type="text/css" rel="stylesheet">
-    <script src="{{ asset('js/select2.min.js') }}" type="text/javascript"></script>
-    <link href="{{ asset('css/popupWindow.css') }}" type="text/css" rel="stylesheet">
-    <script src="{{ asset('js/popupWindow.js') }}" type="text/javascript"></script>
-    <link href="{{ asset('css/bootstrap-clockpicker.min.css') }}" type="text/css" rel="stylesheet">
-    <script src="{{ asset('js/bootstrap-clockpicker.min.js') }}" type="text/javascript"></script>
     <link href="{{ asset('css/jquery-confirm.min.css') }}" type="text/css" rel="stylesheet">
     <script src="{{ asset('js/jquery-confirm.min.js') }}" type="text/javascript"></script>
     <link href="{{ asset('css/image-uploader.min.css') }}" type="text/css" rel="stylesheet">
@@ -66,8 +59,8 @@
             50% 50%
             no-repeat;
         }
-        .modal-ninety{
-            max-width: 90%;
+        .modal-fifty{
+            max-width: 50%;
         }
         ::placeholder {
             font-size: 70%;
@@ -92,12 +85,12 @@
 <div class="container-fluid fixed-bottom" style="font-size: 0.7rem;">
     <div class="row">
         <div class="col text-center" style="padding-top: 15px; color: white; background-color: #222d3f;">
-            Copyright &copy; {{ date('Y') }} BD Baker's. All Rights Reserved.
+            Copyright &copy; {{ date('Y') }} Protik All Rights Reserved.
         </div>
     </div>
     <div class="row">
         <div class="col text-center" style="padding-bottom: 15px; color: white; background-color: #222d3f;">
-            Designed & Developed by <a href="https://proximasoft.net" target="_blank">Proxima Soft</a>
+            Designed & Developed by <a href="https://protikit.com" target="_blank">Protik Hore</a>
         </div>
     </div>
 </div>

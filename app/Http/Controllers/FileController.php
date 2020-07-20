@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FileRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -33,7 +34,7 @@ class FileController extends Controller
         return response()->json($getDataArrayImage);
     }
 
-    public function upload(Request $request)
+    public function upload(FileRequest $request)
     {
         $fileData['id'] = 1;
         $fileData['title'] = $request->get('title') === null ? 'No Title' : $request->get('title');
@@ -63,6 +64,7 @@ class FileController extends Controller
         $getDataArrayRemove = json_decode($getDataRemove);
         foreach ($getDataArrayRemove as $key => $value) {
             if ($id == $value->id) {
+                Storage::disk('public')->delete($value->image_path);
 //                unset($getDataArrayRemove[$key]);
                 array_splice($getDataArrayRemove, $key, 1);
 //                $newArray[] = $getDataArrayRemove;

@@ -2,24 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59d1a365-bc0b-4466-8aae-2f9eda967c78" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/json_file.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/json_file.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FileController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/FileRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/FileRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/bootstrap.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/jquery-clockpicker.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/file.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/file.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/image/cropped-logo_fav-192x192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/image/cropped-logo_fav-32x32.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/image/logo_full.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/image/logo_wide.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/angular.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/angular.min.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/bootstrap-clockpicker.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/jquery-clockpicker.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/select2.min.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/file/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/file/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
     </list>
@@ -200,7 +182,7 @@
       <workItem from="1584693489885" duration="1699000" />
       <workItem from="1584695922165" duration="1723000" />
       <workItem from="1584697802323" duration="808000" />
-      <workItem from="1595261534950" duration="12282000" />
+      <workItem from="1595261534950" duration="12602000" />
     </task>
     <servers />
   </component>

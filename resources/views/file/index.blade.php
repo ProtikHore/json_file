@@ -255,6 +255,7 @@
                    return xhr;
                },
                success: function (result) {
+                   $.toaster({ title: 'Success', priority : 'success', message : 'Image Updated Successfully' });
                    console.log(result);
                    var percentVal = '100%';
                    bar.width(percentVal);
@@ -299,6 +300,7 @@
                url: '{{ url('image/file/remove') }}/' + id,
                cache: false,
                success: function (result) {
+                   $.toaster({ title: 'Warning', priority : 'warning', message : 'Image Removed' });
                    console.log(result);
                    currentPageUrl = '{{ url('get/image') }}/null';
                    getImages(currentPageUrl);

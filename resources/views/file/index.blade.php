@@ -147,7 +147,7 @@
                         console.log('record');
                         $.each(result, function (key, data) {
                             console.log(data.image_path);
-                            $('#image_show').append(
+                            $('#image_show').prepend(
                                 '<div class="col-2 mt-4">' +
                                 '<div class="row">' +
                                 '<div class="col">' +

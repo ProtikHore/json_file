@@ -295,20 +295,34 @@
         $(document).on('click', '.remove_image', function () {
            let id = $(this).data('id');
            console.log(id);
-           $.ajax({
-               method: 'get',
-               url: '{{ url('image/file/remove') }}/' + id,
-               cache: false,
-               success: function (result) {
-                   $.toaster({ title: 'Warning', priority : 'warning', message : 'Image Removed' });
-                   console.log(result);
-                   currentPageUrl = '{{ url('get/image') }}/null';
-                   getImages(currentPageUrl);
-               },
-               error: function (xhr) {
-                   console.log(xhr);
-               }
-           });
+
+            $.confirm({
+                title: 'Remove',
+                content: 'Are You Sure to Remove This Image',
+                buttons: {
+                    confirm: function () {
+                        $.ajax({
+                            method: 'get',
+                            url: '{{ url('image/file/remove') }}/' + id,
+                            cache: false,
+                            success: function (result) {
+                                $.toaster({ title: 'Warning', priority : 'warning', message : 'Image Removed' });
+                                console.log(result);
+                                currentPageUrl = '{{ url('get/image') }}/null';
+                                getImages(currentPageUrl);
+                            },
+                            error: function (xhr) {
+                                console.log(xhr);
+                            }
+                        });
+                    },
+                    cancel: {
+                        text: 'Close',
+                        btnClass: 'btn-blue',
+                        keys: ['enter']
+                    }
+                }
+            });
            return false;
         });
 

@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'FileController@index')->name('file.index');
-Route::get('get/image/{search}', 'FileController@getImage')->name('file.getImage');
+Route::get('get/image', 'FileController@getImage')->name('file.getImage');
 Route::post('image/upload', 'FileController@upload')->name('file.upload');
 Route::get('image/file/remove/{id}', 'FileController@remove')->name('file.remove');

@@ -13,24 +13,10 @@ class FileController extends Controller
         return view('file.index');
     }
 
-    public function getImage($searchKey)
+    public function getImage()
     {
-        $temparray = [];
-        if ($searchKey !== 'null') {
-            $getDataImage = file_get_contents('file.json');
-            $getDataArrayImage = json_decode($getDataImage);
-
-            foreach ($getDataArrayImage as $key => $item) {
-                if ($item->title == $searchKey) {
-                    array_push($temparray, $getDataArrayImage[$key]);
-                }
-            }
-            return response()->json($temparray);
-
-        } else {
-            $getDataImage = file_get_contents('file.json');
-            $getDataArrayImage = json_decode($getDataImage);
-        }
+        $getDataImage = file_get_contents('file.json');
+        $getDataArrayImage = json_decode($getDataImage);
         return response()->json($getDataArrayImage);
     }
 
@@ -65,15 +51,11 @@ class FileController extends Controller
         foreach ($getDataArrayRemove as $key => $value) {
             if ($id == $value->id) {
                 Storage::disk('public')->delete($value->image_path);
-//                unset($getDataArrayRemove[$key]);
                 array_splice($getDataArrayRemove, $key, 1);
-//                $newArray[] = $getDataArrayRemove;
                 $status = json_encode($getDataArrayRemove);
                 file_put_contents('file.json', $status);
                 return response()->json($status);
             }
         }
-//        $status = json_encode($getDataArray);
-        //return response()->json($getDataArray);
     }
 }

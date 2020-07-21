@@ -5,28 +5,6 @@
         .image_progress { position:relative; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
         .image_bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
         .image_percent { position:absolute; display:inline-block; top:3px; left:48%; }
-
-        /*body{*/
-        /*    overflow: hidden;*/
-        /*}*/
-
-        /*h3{*/
-        /*    position: absolute;*/
-        /*    white-space: nowrap;*/
-        /*    animation: floatText 5s infinite alternate ease-in-out;*/
-        /*}*/
-
-        /*@-webkit-keyframes floatText{*/
-        /*    from {*/
-        /*        left: 00%;*/
-        /*    }*/
-
-        /*    to {*/
-        /*        !* left: auto; *!*/
-        /*        left: 100%;*/
-        /*    }*/
-        /*}*/
-
     </style>
 
     <div style="height: 20px;"></div>
@@ -45,9 +23,7 @@
                     <button class="btn btn-primary" id="image_modal"> Upload Image</button>
                 </div>
                 <div class="col-9">
-                    <form id="search_form">
-                        <input type="text" class="form-control" name="search" id="search" placeholder="Search....">
-                    </form>
+                    <input type="text" class="form-control" name="search" id="search" placeholder="Search....">
                 </div>
             </div>
             <hr>
@@ -78,8 +54,6 @@
                                 <div class="row" id="drop-container">
                                     <div class="col text-center">
                                         <div class="form-group">
-{{--                                            <input type="file" name="image"  onchange="readPhotoURL(this);" style="opacity:0;">--}}
-{{--                                            <img style="width:80px; height:80px"; id="image" src="{{asset('storage/icon/upload.png')}}" alt="your image" />--}}
                                             <input type="file" name="image" onchange="readPhotoURL(this)" style="opacity: 0; width: 200px; height: 150px; border: 1px solid grey; cursor: pointer;">
                                             <img  style="width:200px; height:150px; margin-top: 117px; margin-left: -204px; border: 1px solid grey;" id="image" src="{{url('image/icon/upload.png')}}" alt="your photo" />
                                         </div>
@@ -133,6 +107,7 @@
     <script language="JavaScript">
 
         let currentPageUrl = '';
+        let allData;
 
         function getImages(url)
         {
@@ -143,6 +118,7 @@
                 url: url,
                 success: function (result) {
                     console.log(result);
+                    allData = result;
                     if(result && result.length) {
                         console.log('record');
                         $.each(result, function (key, data) {
@@ -180,8 +156,7 @@
         }
 
         $(document).ready(function () {
-           console.log('hello');
-           currentPageUrl = '{{ url('get/image') }}/null';
+           currentPageUrl = '{{ url('get/image') }}';
            getImages(currentPageUrl);
 
         });
@@ -195,17 +170,65 @@
         }
 
         $(document).on('keyup', '#search', function () {
-            let searchKey = $('#search').val() === '' ? 'null' : $('#search').val();
-            currentPageUrl = '{{ url('get/image') }}/' + searchKey;
-            getImages(currentPageUrl);
+            $('#image_no_record_section').addClass('sr-only');
+            $('#image_show').empty();
+            if($('#search').val() === '') {
+                $.each(allData, function (key, data) {
+                    $('#image_show').prepend(
+                        '<div class="col-2 mt-4">' +
+                        '<div class="row">' +
+                        '<div class="col">' +
+                        '<a href="storage/'+ data.image_path +'"><img class="border" src="storage/'+ data.image_path +'" width="130" height="130" alt=""></a>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="row mt-2">' +
+                        '<div class="col text-center">' +
+                        '<span>' + data.title + '</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="row mt-2">' +
+                        '<div class="col text-center">' +
+                        '<button type="button" class="btn btn-primary btn-sm remove_image" data-id="'+ data.id +'">Remove</button>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                    );
+                });
+            } else {
+                let found = false;
+                $.each(allData, function (key, data) {
+                    if (data.title === $('#search').val()) {
+                        found = true;
+                        $('#image_no_record_section').addClass('sr-only');
+                        $('#image_show').prepend(
+                            '<div class="col-2 mt-4">' +
+                            '<div class="row">' +
+                            '<div class="col">' +
+                            '<a href="storage/'+ data.image_path +'"><img class="border" src="storage/'+ data.image_path +'" width="130" height="130" alt=""></a>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="row mt-2">' +
+                            '<div class="col text-center">' +
+                            '<span>' + data.title + '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="row mt-2">' +
+                            '<div class="col text-center">' +
+                            '<button type="button" class="btn btn-primary btn-sm remove_image" data-id="'+ data.id +'">Remove</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
+                        );
+                    } else if (found === false){
+                        $('#image_no_record_section').removeClass('sr-only');
+                    }
+                });
+            }
             return false;
         });
 
         $('#image_modal').on('click', function () {
             $('#image_upload_form').trigger('reset');
-            $('.image_bar').trigger('reset');
-            $('.image_percent').val(0);
-            $('.image_progress').val(0);
             $('#image').attr('src', '{{ url('image/icon/upload.png') }}');
             clearFileForm();
             $('#image_upload_form_submit').text('Upload');
@@ -236,7 +259,7 @@
             fileData.append('_token', '{{ csrf_token() }}');
            $.ajax({
                method: 'post',
-              url: '{{ url('image/upload') }}',
+               url: '{{ url('image/upload') }}',
                data: fileData,
                processData: false,
                contentType: false,
@@ -260,7 +283,7 @@
                    var percentVal = '100%';
                    bar.width(percentVal);
                    percent.html(percentVal);
-                   currentPageUrl = '{{ url('get/image') }}/null';
+                   currentPageUrl = '{{ url('get/image') }}';
                    getImages(currentPageUrl);
                    $('#image_upload_form').trigger('reset');
                    $('#image').attr('src', '{{ url('image/icon/upload.png') }}');
@@ -308,7 +331,7 @@
                             success: function (result) {
                                 $.toaster({ title: 'Warning', priority : 'warning', message : 'Image Removed' });
                                 console.log(result);
-                                currentPageUrl = '{{ url('get/image') }}/null';
+                                currentPageUrl = '{{ url('get/image') }}';
                                 getImages(currentPageUrl);
                             },
                             error: function (xhr) {

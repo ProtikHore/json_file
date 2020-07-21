@@ -23,7 +23,7 @@
                     <button class="btn btn-primary" id="image_modal"> Upload Image</button>
                 </div>
                 <div class="col-9">
-                    <input type="text" class="form-control" name="search" id="search" placeholder="Search....">
+                    <input type="text" class="form-control" name="search" id="search" placeholder="Search....(Case Sensiitve)">
                 </div>
             </div>
             <hr>
@@ -323,21 +323,24 @@
                 title: 'Remove',
                 content: 'Are You Sure to Remove This Image',
                 buttons: {
-                    confirm: function () {
-                        $.ajax({
-                            method: 'get',
-                            url: '{{ url('image/file/remove') }}/' + id,
-                            cache: false,
-                            success: function (result) {
-                                $.toaster({ title: 'Warning', priority : 'warning', message : 'Image Removed' });
-                                console.log(result);
-                                currentPageUrl = '{{ url('get/image') }}';
-                                getImages(currentPageUrl);
-                            },
-                            error: function (xhr) {
-                                console.log(xhr);
-                            }
-                        });
+                    confirm: {
+                        btnClass: 'btn-red',
+                        action: function() {
+                            $.ajax({
+                                method: 'get',
+                                url: '{{ url('image/file/remove') }}/' + id,
+                                cache: false,
+                                success: function (result) {
+                                    $.toaster({title: 'Warning', priority: 'warning', message: 'Image Removed'});
+                                    console.log(result);
+                                    currentPageUrl = '{{ url('get/image') }}';
+                                    getImages(currentPageUrl);
+                                },
+                                error: function (xhr) {
+                                    console.log(xhr);
+                                }
+                            });
+                        }
                     },
                     cancel: {
                         text: 'Close',
